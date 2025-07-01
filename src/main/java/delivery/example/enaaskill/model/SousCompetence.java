@@ -14,6 +14,9 @@ public class SousCompetence {
     private boolean validee = false;
 
 
+    @ManyToOne
+    @JoinColumn(name = "competence_id")
+    private Competence competence;
 
     public Long getId() {
         return id;

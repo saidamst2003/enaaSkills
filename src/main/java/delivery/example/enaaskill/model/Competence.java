@@ -14,6 +14,8 @@ public class Competence {
 
     private String nom;
 
+    @OneToMany(mappedBy = "competence", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SousCompetence> sousCompetences;
 
     public Long getId() {
         return id;
@@ -31,5 +33,11 @@ public class Competence {
         this.nom = nom;
     }
 
+    public List<SousCompetence> getSousCompetences() {
+        return sousCompetences;
+    }
 
+    public void setSousCompetences(List<SousCompetence> sousCompetences) {
+        this.sousCompetences = sousCompetences;
+    }
 }
