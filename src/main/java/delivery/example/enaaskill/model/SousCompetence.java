@@ -41,5 +41,13 @@ public class SousCompetence {
     public void setValidee(boolean validee) {
         this.validee = validee;
     }
+
+    public Competence getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(Competence competence) {
+        this.competence = competence;
+    }
 }
 
