@@ -11,7 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/sous-competences")
 public class SousCompetenceController {
-
+   l
     private final SousCompetenceService sousCompetenceService;
 
     public SousCompetenceController(SousCompetenceService sousCompetenceService) {
