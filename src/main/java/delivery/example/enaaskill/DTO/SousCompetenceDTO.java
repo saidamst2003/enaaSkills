@@ -1,6 +1,5 @@
 package delivery.example.enaaskill.DTO;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -15,6 +14,8 @@ public class SousCompetenceDTO {
     @Size(max = 1000, message = "La description ne doit pas dépasser 1000 caractères")
     private String description;
 
+    private boolean validee;
+
     public Long getId() {
         return id;
     }
@@ -23,19 +24,27 @@ public class SousCompetenceDTO {
         this.id = id;
     }
 
-    public @NotBlank(message = "Le nom est obligatoire") @Size(max = 255, message = "Le nom ne doit pas dépasser 255 caractères") String getNom() {
+    public String getNom() {
         return nom;
     }
 
-    public void setNom(@NotBlank(message = "Le nom est obligatoire") @Size(max = 255, message = "Le nom ne doit pas dépasser 255 caractères") String nom) {
+    public void setNom(String nom) {
         this.nom = nom;
     }
 
-    public @Size(max = 1000, message = "La description ne doit pas dépasser 1000 caractères") String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(@Size(max = 1000, message = "La description ne doit pas dépasser 1000 caractères") String description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isValidee() {
+        return validee;
+    }
+
+    public void setValidee(boolean validee) {
+        this.validee = validee;
     }
 }
