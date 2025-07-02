@@ -3,12 +3,6 @@ package delivery.example.enaaskill.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.groups.Default;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +23,7 @@ public class Competence {
     private String description;
 
     @Column(name = "seuil_validation")
-    private Integer seuilValidation = 80; // Pourcentage requis pour validation
+    private Integer seuilValidation = 80;
 
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
