@@ -103,6 +103,45 @@ class SousCompetenceServiceTest {
         verify(sousCompetenceRepository).deleteById(id);
     }
 
+    @Test
+    void testGetByCompetenceId() {
+        Long competenceId = 1L;
+        SousCompetence sc = new SousCompetence();
+
+        when(sousCompetenceRepository.findByCompetenceId(competenceId)).thenReturn(List.of(sc));
+        when(sousCompetenceMapper.toDTO(sc)).thenReturn(new SousCompetenceDTO());
+
+        List<SousCompetenceDTO> result = sousCompetenceService.getByCompetenceId(competenceId);
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testValidateSousCompetence() {
+        Long id = 1L;
+        SousCompetence sc = new SousCompetence();
+        sc.setId(id);
+        sc.setValidee(false);
+
+        Competence comp = new Competence();
+        comp.setId(5L);
+        sc.setCompetence(comp);
+
+        SousCompetenceDTO dto = new SousCompetenceDTO();
+        dto.setId(id);
+        dto.setValidee(true);
+
+        when(sousCompetenceRepository.findById(id)).thenReturn(Optional.of(sc));
+        when(sousCompetenceRepository.save(any())).thenReturn(sc);
+        when(sousCompetenceMapper.toDTO(any())).thenReturn(dto);
+
+        Optional<SousCompetenceDTO> result = sousCompetenceService.validateSousCompetence(id);
+
+        assertTrue(result.isPresent());
+        assertTrue(result.get().isValidee());
+
+        verify(competenceService).mettreAJourValidationCompetence(comp.getId());
+    }
 
 }
 
