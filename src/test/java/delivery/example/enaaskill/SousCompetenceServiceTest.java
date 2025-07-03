@@ -55,6 +55,20 @@ class SousCompetenceServiceTest {
         verify(sousCompetenceRepository).save(entity);
     }
 
+    @Test
+    void testGetAllSousCompetences() {
+        SousCompetence sc1 = new SousCompetence();
+        sc1.setId(1L);
+        SousCompetence sc2 = new SousCompetence();
+        sc2.setId(2L);
+
+        when(sousCompetenceRepository.findAll()).thenReturn(List.of(sc1, sc2));
+        when(sousCompetenceMapper.toDTO(any())).thenReturn(new SousCompetenceDTO());
+
+        List<SousCompetenceDTO> result = sousCompetenceService.getAllSousCompetences();
+
+        assertEquals(2, result.size());
+    }
 
 
 }
