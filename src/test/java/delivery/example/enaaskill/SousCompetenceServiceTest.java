@@ -91,6 +91,18 @@ class SousCompetenceServiceTest {
         assertEquals("Updated", result.get().getNom());
     }
 
+    @Test
+    void testDeleteSousCompetence_whenExists() {
+        Long id = 1L;
+
+        when(sousCompetenceRepository.existsById(id)).thenReturn(true);
+
+        boolean result = sousCompetenceService.deleteSousCompetence(id);
+
+        assertTrue(result);
+        verify(sousCompetenceRepository).deleteById(id);
+    }
+
 
 }
 
