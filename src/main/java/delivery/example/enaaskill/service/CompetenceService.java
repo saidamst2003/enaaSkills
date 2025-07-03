@@ -1,7 +1,9 @@
 package delivery.example.enaaskill.service;
 
 import delivery.example.enaaskill.model.Competence;
+import delivery.example.enaaskill.model.SousCompetence;
 import delivery.example.enaaskill.repository.CompetenceRepository;
+import delivery.example.enaaskill.repository.SousCompetenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class CompetenceService {
 
         @Autowired
         private CompetenceRepository competenceRepository;
-
+           private SousCompetenceRepository sousCompetenceRepository;
         // Créer une nouvelle compétence
         public Competence create(Competence competence) {
             competence.setDateCreation(LocalDateTime.now());
@@ -49,7 +51,23 @@ public class CompetenceService {
         public void delete(Long id) {
             competenceRepository.deleteById(id);
         }
+    public void mettreAJourValidationCompetence(Long competenceId) {
+        Competence competence = competenceRepository.findById(competenceId)
+                .orElseThrow(() -> new RuntimeException("Compétence introuvable"));
+
+        List<SousCompetence> sousCompetences = sousCompetenceRepository.findByCompetenceId(competenceId);
+        long nbValidees = sousCompetences.stream().filter(SousCompetence::isValidee).count();
+
+        if (nbValidees >= competence.getSeuilValidation()) {
+            competence.setValidee(true);
+        } else {
+            competence.setValidee(false);
+        }
+
+        competenceRepository.save(competence);
     }
+
+}
 
 
 
