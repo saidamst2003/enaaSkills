@@ -37,6 +37,24 @@ class SousCompetenceServiceTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
     }
+    @Test
+    void testCreateSousCompetence() {
+        SousCompetenceDTO dto = new SousCompetenceDTO();
+        dto.setNom("Test");
+
+        SousCompetence entity = new SousCompetence();
+        entity.setNom("Test");
+
+        when(sousCompetenceMapper.toEntity(dto)).thenReturn(entity);
+        when(sousCompetenceRepository.save(entity)).thenReturn(entity);
+        when(sousCompetenceMapper.toDTO(entity)).thenReturn(dto);
+
+        SousCompetenceDTO result = sousCompetenceService.createSousCompetence(dto);
+
+        assertEquals(dto.getNom(), result.getNom());
+        verify(sousCompetenceRepository).save(entity);
+    }
+
 
 
 }
