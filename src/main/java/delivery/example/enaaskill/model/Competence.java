@@ -38,6 +38,7 @@ public class Competence {
     @JsonManagedReference
     private List<SousCompetence> sousCompetences = new ArrayList<>();
 
+
     public Long getId() {
         return id;
     }
