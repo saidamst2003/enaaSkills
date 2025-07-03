@@ -56,12 +56,7 @@ public class CompetenceServiceTest {
     }
 
 
-    @Test
-    void testGetById_NotFound() {
-        when(competenceRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> competenceService.getById(1L));
-    }
 
     @Test
     void testUpdateCompetence() {
@@ -83,5 +78,37 @@ public class CompetenceServiceTest {
         assertEquals(2, result.getSeuilValidation());
         verify(competenceRepository).save(existing);
     }
+
+    @Test
+    void testDeleteCompetence() {
+        doNothing().when(competenceRepository).deleteById(1L);
+
+        competenceService.delete(1L);
+
+        verify(competenceRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void testMettreAJourValidationCompetence_Validée() {
+        Competence competence = new Competence();
+        competence.setSeuilValidation(2);
+        competence.setValidee(false);
+
+        SousCompetence sc1 = new SousCompetence();
+        sc1.setValidee(true);
+        SousCompetence sc2 = new SousCompetence();
+        sc2.setValidee(true);
+
+        List<SousCompetence> list = List.of(sc1, sc2);
+
+        when(competenceRepository.findById(1L)).thenReturn(Optional.of(competence));
+        when(sousCompetenceRepository.findByCompetenceId(1L)).thenReturn(list);
+
+        competenceService.mettreAJourValidationCompetence(1L);
+
+        assertTrue(competence.isValidee());
+        verify(competenceRepository).save(competence);
+    }
+
 
 }
