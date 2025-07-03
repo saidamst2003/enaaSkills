@@ -31,9 +31,13 @@ public class Competence {
     @Column(name = "date_modification")
     private LocalDateTime dateModification;
 
+    @Column(name = "validee")
+    private boolean validee;
+
     @OneToMany(mappedBy = "competence", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<SousCompetence> sousCompetences = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -89,6 +93,14 @@ public class Competence {
 
     public void setSousCompetences(List<SousCompetence> sousCompetences) {
         this.sousCompetences = sousCompetences;
+    }
+
+    public boolean isValidee() {
+        return validee;
+    }
+
+    public void setValidee(boolean validee) {
+        this.validee = validee;
     }
 }
 
