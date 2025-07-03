@@ -70,6 +70,27 @@ class SousCompetenceServiceTest {
         assertEquals(2, result.size());
     }
 
+    @Test
+    void testUpdateSousCompetence_whenExists() {
+        Long id = 1L;
+        SousCompetenceDTO dto = new SousCompetenceDTO();
+        dto.setNom("Updated");
+        dto.setValidee(true);
+
+        SousCompetence existing = new SousCompetence();
+        existing.setId(id);
+        existing.setNom("Old");
+
+        when(sousCompetenceRepository.findById(id)).thenReturn(Optional.of(existing));
+        when(sousCompetenceRepository.save(existing)).thenReturn(existing);
+        when(sousCompetenceMapper.toDTO(existing)).thenReturn(dto);
+
+        Optional<SousCompetenceDTO> result = sousCompetenceService.updateSousCompetence(id, dto);
+
+        assertTrue(result.isPresent());
+        assertEquals("Updated", result.get().getNom());
+    }
+
 
 }
 
