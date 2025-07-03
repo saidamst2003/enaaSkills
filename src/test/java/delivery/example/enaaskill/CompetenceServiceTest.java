@@ -55,4 +55,33 @@ public class CompetenceServiceTest {
         verify(competenceRepository, times(1)).findAll();
     }
 
+
+    @Test
+    void testGetById_NotFound() {
+        when(competenceRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> competenceService.getById(1L));
+    }
+
+    @Test
+    void testUpdateCompetence() {
+        Competence existing = new Competence();
+        existing.setNom("Old Name");
+
+        Competence newData = new Competence();
+        newData.setNom("New Name");
+        newData.setDescription("Description");
+        newData.setSeuilValidation(2);
+
+        when(competenceRepository.findById(1L)).thenReturn(Optional.of(existing));
+        when(competenceRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Competence result = competenceService.update(1L, newData);
+
+        assertEquals("New Name", result.getNom());
+        assertEquals("Description", result.getDescription());
+        assertEquals(2, result.getSeuilValidation());
+        verify(competenceRepository).save(existing);
+    }
+
 }
