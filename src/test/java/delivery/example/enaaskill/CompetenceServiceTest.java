@@ -109,6 +109,26 @@ public class CompetenceServiceTest {
         assertTrue(competence.isValidee());
         verify(competenceRepository).save(competence);
     }
+    @Test
+    void testMettreAJourValidationCompetence_NonValidée() {
+        Competence competence = new Competence();
+        competence.setSeuilValidation(3);
+        competence.setValidee(true);
 
+        SousCompetence sc1 = new SousCompetence();
+        sc1.setValidee(true);
+        SousCompetence sc2 = new SousCompetence();
+        sc2.setValidee(false);
+
+        List<SousCompetence> list = List.of(sc1, sc2);
+
+        when(competenceRepository.findById(1L)).thenReturn(Optional.of(competence));
+        when(sousCompetenceRepository.findByCompetenceId(1L)).thenReturn(list);
+
+        competenceService.mettreAJourValidationCompetence(1L);
+
+        assertFalse(competence.isValidee());
+        verify(competenceRepository).save(competence);
+    }
 
 }
